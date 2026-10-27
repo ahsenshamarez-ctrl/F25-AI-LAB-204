@@ -1,0 +1,10 @@
+# Example directed graph; replace with the instructor's exact graph if different.
+# Successor order:
+A: B, C
+B: D
+C: F, G
+D: E
+E: H
+F: H
+G: H
+H:
