@@ -1,0 +1,5 @@
+case,score,documents_complete,attendance_percent,interview_passed,expected
+All conditions pass,85,True,90,True,PASS
+Attendance too low,85,True,70,True,FAIL
+Interview not passed,85,True,90,False,FAIL
+Minimum values,70,True,75,True,PASS
