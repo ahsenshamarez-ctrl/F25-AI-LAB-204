@@ -1,0 +1,7 @@
+Input: {'score': 69, 'documents_complete': True, 'attendance': 90, 'interview_passed': True}
+Rule result: FAIL
+Reason: Score is below 70
+Example chat answer: You qualify because your attendance and interview are good.
+Example chat result: PASS
+Do they agree? False
+Note: this is an example, not output from a tested AI model.
