@@ -1,0 +1,9 @@
+DLS limit 1: status=CUTOFF; path=-; order=A -> B -> C
+DLS limit 2: status=CUTOFF; path=-; order=A -> B -> D -> C -> F -> G
+DLS limit 3: status=FOUND; path=A -> C -> F -> H; order=A -> B -> D -> E -> C -> F -> H
+DLS limit 4: status=FOUND; path=A -> B -> D -> E -> H; order=A -> B -> D -> E -> H
+IDDFS attempts:
+  limit 1: CUTOFF; order=A -> B -> C
+  limit 2: CUTOFF; order=A -> B -> D -> C -> F -> G
+  limit 3: FOUND; order=A -> B -> D -> E -> C -> F -> H
+IDDFS final path: A -> C -> F -> H
