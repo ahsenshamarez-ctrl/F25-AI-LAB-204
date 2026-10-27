@@ -1,0 +1,14 @@
+cold room: previous=NONE, percept=(17 C, occupied=True), target=HEAT, command=SEND
+same cold percept repeated: previous=HEAT, percept=(17 C, occupied=True), target=HEAT, command=NO COMMAND
+lower exact boundary: previous=HEAT, percept=(18 C, occupied=True), target=IDLE, command=SEND
+same boundary repeated: previous=IDLE, percept=(18 C, occupied=True), target=IDLE, command=NO COMMAND
+upper exact boundary: previous=IDLE, percept=(26 C, occupied=True), target=IDLE, command=NO COMMAND
+hot room: previous=IDLE, percept=(27 C, occupied=True), target=COOL, command=SEND
+same hot percept repeated: previous=COOL, percept=(27 C, occupied=True), target=COOL, command=NO COMMAND
+empty room despite cold temperature: previous=COOL, percept=(17 C, occupied=False), target=OFF, command=SEND
+empty room repeated: previous=OFF, percept=(17 C, occupied=False), target=OFF, command=NO COMMAND
+
+Cases run: 9
+Repeated target commands suppressed: YES
+Boundary checks (18 C and 26 C): included
+Empty-room priority check: included
