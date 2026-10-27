@@ -1,0 +1,10 @@
+case,previous_mode_before,percept,target_mode,command
+cold room,NONE,"17 C, occupied=True",HEAT,SEND
+same cold percept repeated,HEAT,"17 C, occupied=True",HEAT,NO COMMAND
+lower exact boundary,HEAT,"18 C, occupied=True",IDLE,SEND
+same boundary repeated,IDLE,"18 C, occupied=True",IDLE,NO COMMAND
+upper exact boundary,IDLE,"26 C, occupied=True",IDLE,NO COMMAND
+hot room,IDLE,"27 C, occupied=True",COOL,SEND
+same hot percept repeated,COOL,"27 C, occupied=True",COOL,NO COMMAND
+empty room despite cold temperature,COOL,"17 C, occupied=False",OFF,SEND
+empty room repeated,OFF,"17 C, occupied=False",OFF,NO COMMAND
