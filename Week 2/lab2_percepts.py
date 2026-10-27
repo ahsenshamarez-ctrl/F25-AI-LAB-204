@@ -1,0 +1,13 @@
+"""Repeatable test percepts: (label, temperature C, occupied)."""
+
+PERCEPTS = [
+    ("cold room", 17, True),
+    ("same cold percept repeated", 17, True),
+    ("lower exact boundary", 18, True),
+    ("same boundary repeated", 18, True),
+    ("upper exact boundary", 26, True),
+    ("hot room", 27, True),
+    ("same hot percept repeated", 27, True),
+    ("empty room despite cold temperature", 17, False),
+    ("empty room repeated", 17, False),
+]
