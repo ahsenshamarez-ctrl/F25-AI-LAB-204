@@ -1,0 +1,23 @@
+Test 1 - all conditions pass
+Expected: PASS
+Actual:   PASS
+Reason: All conditions are satisfied
+Correct: True
+
+Test 2 - attendance too low
+Expected: FAIL
+Actual:   FAIL
+Reason: Attendance is below 75%
+Correct: True
+
+Test 3 - interview not passed
+Expected: FAIL
+Actual:   FAIL
+Reason: Interview was not passed
+Correct: True
+
+Test 4 - minimum values
+Expected: PASS
+Actual:   PASS
+Reason: All conditions are satisfied
+Correct: True
