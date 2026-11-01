@@ -1,0 +1,15 @@
+WEEK 5 — MINIMAX AND ALPHA-BETA
+Supplied left-to-right ordering
+  Utilities: [3, 5, 2, 9, 3, 5, 2, 9]
+  Minimax value: 5; leaves evaluated: 8
+  Alpha-Beta value: 5; leaves evaluated: 6
+  Leaves avoided: 2
+Reversed branch ordering
+  Utilities: [9, 2, 5, 3, 9, 2, 5, 3]
+  Minimax value: 5; leaves evaluated: 8
+  Alpha-Beta value: 5; leaves evaluated: 6
+  Leaves avoided: 2
+Edge cases: PASS (single terminal node; mixed negative/positive utilities)
+All checks passed.
+
+The result is order-dependent in general: alpha-beta's value is invariant, but the number of pruned leaves can vary with move ordering. These particular two orders happen to produce the same leaf count.
