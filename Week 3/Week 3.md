@@ -1,5 +1,3 @@
-# Week 3 — Graph Search Lab
+# Week 3 — Uninformed Search
 
-Contains beginner-friendly BFS, DFS, DLS, IDDFS and UCS examples. Read `README.md` first.
-
-**Graph note:** This package uses an explicitly labelled example A–H graph because the original class diagram was not provided. Replace it with the instructor's exact graph if it differs.
+Corrected to match the supplied Lab Manual Sections 3.2–3.8 and the original A–G graph. See `Lab3_Report.docx` and `Lab3_Report.md` for traces, algorithms, tests, results and interpretation.
