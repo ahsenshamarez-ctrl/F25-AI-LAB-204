@@ -1,9 +1,11 @@
-DLS limit 1: status=CUTOFF; path=-; order=A -> B -> C
-DLS limit 2: status=CUTOFF; path=-; order=A -> B -> D -> C -> F -> G
-DLS limit 3: status=FOUND; path=A -> C -> F -> H; order=A -> B -> D -> E -> C -> F -> H
-DLS limit 4: status=FOUND; path=A -> B -> D -> E -> H; order=A -> B -> D -> E -> H
-IDDFS attempts:
-  limit 1: CUTOFF; order=A -> B -> C
-  limit 2: CUTOFF; order=A -> B -> D -> C -> F -> G
-  limit 3: FOUND; order=A -> B -> D -> E -> C -> F -> H
-IDDFS final path: A -> C -> F -> H
+DLS results
+limit=1: CUTOFF; path=None; processed=['A', 'B', 'C']
+limit=2: CUTOFF; path=None; processed=['A', 'B', 'D', 'E', 'C', 'F']
+limit=3: FOUND; path=['A', 'B', 'E', 'G']; processed=['A', 'B', 'D', 'E', 'G']
+limit=4: FOUND; path=['A', 'B', 'E', 'G']; processed=['A', 'B', 'D', 'E', 'G']
+
+IDDFS results
+maximum=1: CUTOFF; path=None; limits=[1]
+maximum=2: CUTOFF; path=None; limits=[1, 2]
+maximum=3: FOUND; path=['A', 'B', 'E', 'G']; limits=[1, 2, 3]
+maximum=4: FOUND; path=['A', 'B', 'E', 'G']; limits=[1, 2, 3]
