@@ -1,29 +1,44 @@
+"""UCS on the manual's weighted extension: original edges plus C->G."""
 import heapq
 from itertools import count
 
-WEIGHTED_GRAPH = {
-    "A":[("B",1),("C",1)], "B":[("D",1)], "C":[("F",2),("G",2)],
-    "D":[("E",1)], "E":[("H",1)], "F":[("H",2)], "G":[("H",2)], "H":[]
+weighted_graph = {
+    "A": [("B", 1), ("C", 6)],
+    "B": [("D", 2), ("E", 1)],
+    "C": [("F", 2), ("G", 6)],  # C->G is the added corridor
+    "D": [], "E": [("G", 1)], "F": [], "G": []
 }
-def ucs(graph, start, goal):
-    tie = count(); frontier = [(0,next(tie),start,[start])]
-    best = {start:0}; processed = []
+
+def ucs(start, goal, adjacency=weighted_graph):
+    serial = count()
+    frontier = [(0, next(serial), start, [start])]
+    best = {start: 0}
+    processed = []
     while frontier:
         cost, _, node, path = heapq.heappop(frontier)
-        if cost != best.get(node): continue
-        processed.append((node,cost))
-        if node == goal: return path,cost,processed
-        for nxt,weight in graph[node]:
+        if cost != best.get(node):
+            continue
+        processed.append((node, cost))
+        if node == goal:
+            return path, cost, processed
+        for nxt, weight in adjacency.get(node, []):
+            if weight < 0:
+                raise ValueError("UCS requires nonnegative edge costs")
             new_cost = cost + weight
-            if new_cost < best.get(nxt,float("inf")):
+            if new_cost < best.get(nxt, float("inf")):
                 best[nxt] = new_cost
-                heapq.heappush(frontier,(new_cost,next(tie),nxt,path+[nxt]))
-    return None,float("inf"),processed
+                heapq.heappush(frontier, (new_cost, next(serial), nxt, path + [nxt]))
+    return None, float("inf"), processed
+
+def path_cost(path, adjacency=weighted_graph):
+    return sum(dict(adjacency[a])[b] for a, b in zip(path, path[1:]))
+
 if __name__ == "__main__":
-    path,cost,order = ucs(WEIGHTED_GRAPH,"A","H")
-    print("UCS processing order (node, cumulative cost):")
-    print(" -> ".join(f"{n}({c})" for n,c in order))
-    print(f"UCS path: {' -> '.join(path) if path else 'NOT FOUND'}")
-    print(f"UCS total cost: {cost}")
-    print("Independent cost check: 1 + 1 + 1 + 1 = 4")
-    print("BFS route on same topology: A -> C -> F -> H; weighted cost = 1 + 2 + 2 = 5")
+    path, cost, order = ucs("A", "G")
+    print("UCS path:", " -> ".join(path))
+    print("UCS cost:", cost)
+    print("UCS processing order:", " -> ".join(f"{n}({c})" for n, c in order))
+    print("Independent path-cost check:", path_cost(path))
+    bfs_path = ["A", "C", "G"]
+    print("BFS path on same topology:", " -> ".join(bfs_path))
+    print("BFS path cost:", path_cost(bfs_path))
