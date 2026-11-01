@@ -1,0 +1,9 @@
+{
+  "student": "Rasikh Ali - 42365",
+  "course": "CAI601400",
+  "root_player": "MAX",
+  "levels": ["MAX", "MIN", "MAX", "terminal"],
+  "terminal_utilities_left_to_right": [3, 5, 2, 9, 3, 5, 2, 9],
+  "terminal_utilities_reversed": [9, 2, 5, 3, 9, 2, 5, 3],
+  "note": "Utilities are the fixed illustrative values supplied by the Week 5 manual's eight-leaf Alpha-Beta example."
+}
