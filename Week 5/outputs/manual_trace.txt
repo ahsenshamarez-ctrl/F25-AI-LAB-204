@@ -1,0 +1,24 @@
+WEEK 5 MANUAL TRACE
+Root is MAX. The next level is MIN, followed by MAX, then terminal utilities.
+
+Supplied leaves, left to right: 3, 5, 2, 9, 3, 5, 2, 9
+
+Bottom-up Minimax:
+- MAX pairs: max(3,5)=5; max(2,9)=9; max(3,5)=5; max(2,9)=9.
+- MIN level: min(5,9)=5 for the left half; min(5,9)=5 for the right half.
+- Root MAX: max(5,5)=5.
+
+Correction to keep the actual binary-tree grouping explicit:
+The eight leaves form four MAX nodes (5, 9, 5, 9), two MIN nodes (5, 5), and root MAX value 5.
+
+Alpha-Beta, supplied order:
+- Explore the left MIN subtree: first MAX child is max(3,5)=5. Its second MAX child starts with 2; because the MIN node already has beta=5 and this MAX node reaches alpha=2, it must inspect its second leaf 9 to establish max(2,9)=9. Left MIN returns 5.
+- Root MAX now has alpha=5.
+- In the right MIN subtree, its first MAX child evaluates max(3,5)=5. MIN's beta becomes 5, so alpha >= beta (5 >= 5): prune the remaining right MAX subtree (leaves 2 and 9).
+- Alpha-Beta evaluates 6 leaves, returns 5, and prunes 2 leaves.
+
+Reversed ordering: [9,2,5,3,9,2,5,3].
+- Each MAX pair evaluates to 9, 5, 9, 5; each MIN pair becomes 5; root MAX is 5.
+- Alpha-Beta still returns 5, but evaluates 6 leaves for this order.
+
+Note: the executable code is authoritative for the counters; the trace is included to make the bound updates and cutoff reproducible.
