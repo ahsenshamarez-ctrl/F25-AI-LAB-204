@@ -1,38 +1,45 @@
-GRAPH = {"A":["B","C"], "B":["D"], "C":["F","G"], "D":["E"], "E":["H"], "F":["H"], "G":["H"], "H":[]}
-FOUND, CUTOFF, FAILURE = "FOUND", "CUTOFF", "FAILURE"
+"""DLS and IDDFS for the original graph, using a path-local cycle check."""
+graph = {
+    "A": ["B", "C"], "B": ["D", "E"], "C": ["F"],
+    "D": [], "E": ["G"], "F": [], "G": []
+}
 
-def dls(graph, start, goal, limit):
-    order = []
-    def visit(node, depth, path):
-        order.append(node)
-        if node == goal: return FOUND, path
+def dls(start, goal, limit, adjacency=graph):
+    processed = []
+    def visit(node, path, depth):
+        processed.append(node)
+        if node == goal:
+            return "FOUND", path
         if depth == limit:
-            return (CUTOFF, None) if any(n not in path for n in graph[node]) else (FAILURE, None)
+            return ("CUTOFF", None) if adjacency.get(node, []) else ("FAILURE", None)
         saw_cutoff = False
-        for nxt in graph[node]:
-            if nxt in path: continue
-            status, found_path = visit(nxt, depth + 1, path + [nxt])
-            if status == FOUND: return FOUND, found_path
-            if status == CUTOFF: saw_cutoff = True
-        return (CUTOFF, None) if saw_cutoff else (FAILURE, None)
-    status, path = visit(start, 0, [start])
-    return status, path, order
+        for nxt in adjacency.get(node, []):
+            if nxt in path:
+                continue
+            status, result = visit(nxt, path + [nxt], depth + 1)
+            if status == "FOUND":
+                return status, result
+            if status == "CUTOFF":
+                saw_cutoff = True
+        return ("CUTOFF", None) if saw_cutoff else ("FAILURE", None)
+    status, path = visit(start, [start], 0)
+    return status, path, processed
 
-def iddfs(graph, start, goal, max_depth):
+def iddfs(start, goal, max_depth, adjacency=graph):
     attempts = []
     for limit in range(1, max_depth + 1):
-        status, path, order = dls(graph, start, goal, limit)
-        attempts.append((limit, status, path, order))
-        if status == FOUND: return path, attempts
-        if status == FAILURE: break
-    return None, attempts
+        status, path, processed = dls(start, goal, limit, adjacency)
+        attempts.append((limit, status, path, processed))
+        if status == "FOUND":
+            return status, path, attempts
+    return (attempts[-1][1] if attempts else "FAILURE"), None, attempts
 
 if __name__ == "__main__":
+    print("DLS results")
     for limit in range(1, 5):
-        status, path, order = dls(GRAPH, "A", "H", limit)
-        print(f"DLS limit {limit}: status={status}; path={' -> '.join(path) if path else '-'}; order={' -> '.join(order)}")
-    path, attempts = iddfs(GRAPH, "A", "H", 4)
-    print("IDDFS attempts:")
-    for limit, status, _, order in attempts:
-        print(f"  limit {limit}: {status}; order={' -> '.join(order)}")
-    print(f"IDDFS final path: {' -> '.join(path) if path else 'NOT FOUND'}")
+        status, path, order = dls("A", "G", limit)
+        print(f"limit={limit}: {status}; path={path}; processed={order}")
+    print("\nIDDFS results")
+    for maximum in range(1, 5):
+        status, path, attempts = iddfs("A", "G", maximum)
+        print(f"maximum={maximum}: {status}; path={path}; limits={[a[0] for a in attempts]}")
