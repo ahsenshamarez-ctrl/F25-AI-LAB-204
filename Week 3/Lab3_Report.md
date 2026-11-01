@@ -1,81 +1,94 @@
-# Lab 3 Report: Graph Search
+# Lab 3 Report — Uninformed Search
 
-## 1. Aim
-Implement and compare BFS, DFS, depth-limited search (DLS), iterative deepening DFS (IDDFS), and uniform-cost search (UCS).
+**Student:** Rasikh Ali | **Roll No.:** 42365 | **Course:** CAI601400
 
-## 2. Assumptions and graph
-The prompt said the graph has nodes A through H, but the original diagram and starter code were not available. This report therefore uses a clearly stated example graph. Replace it with the instructor's exact graph and successor order if they differ.
+## 1. Objective and state-space formulation
+Model a rescue robot moving through a directed building graph. Each vertex is a location and each directed edge is a corridor. Initial state: A. Goal test: current node is G. In the original graph, every edge has equal step cost. Root depth is 0. Search stops when G is removed from the frontier and processed.
 
-Directed adjacency list, successor order:
+## 2. Original graph and successor order
+The supplied Section 3.2 graph is used exactly:
 - A: B, C
-- B: D
-- C: F, G
-- D: E
-- E: H
-- F: H
-- G: H
-- H: no successors
+- B: D, E
+- C: F
+- D: none
+- E: G
+- F: none
+- G: none
 
-Start=A, goal=H, root depth=0. The goal is counted as visited when removed from the frontier and processed.
-
-## 3. BFS trace
-Queue front is on the left.
-
+## 3. Manual BFS frontier trace
+Queue is shown front to rear.
 | Step | Queue before | Processed | Queue after expansion |
 |---|---|---|---|
 | 1 | [A] | A | [B, C] |
-| 2 | [B, C] | B | [C, D] |
-| 3 | [C, D] | C | [D, F, G] |
-| 4 | [D, F, G] | D | [F, G, E] |
-| 5 | [F, G, E] | F | [G, E, H] |
-| 6 | [G, E, H] | G | [E, H] |
-| 7 | [E, H] | E | [H] |
-| 8 | [H] | H | [] — stop |
+| 2 | [B, C] | B | [C, D, E] |
+| 3 | [C, D, E] | C | [D, E, F] |
+| 4 | [D, E, F] | D | [E, F] |
+| 5 | [E, F] | E | [F, G] |
+| 6 | [F, G] | F | [G] |
+| 7 | [G] | G | [] — stop |
 
-BFS visit order: A, B, C, D, F, G, E, H. BFS path: A → C → F → H (3 edges).
+**BFS processing order:** A, B, C, D, E, F, G.  
+**BFS path:** A → B → E → G.
 
-## 4. DFS trace
-Stack top is on the left. Successors are pushed in reverse so the leftmost successor is explored first.
-
+## 4. Manual DFS frontier trace
+Stack top is shown first. Successors are pushed in reverse order so the first listed successor is visited first.
 | Step | Stack before | Processed | Stack after expansion |
 |---|---|---|---|
 | 1 | [A] | A | [B, C] |
-| 2 | [B, C] | B | [D, C] |
-| 3 | [D, C] | D | [E, C] |
-| 4 | [E, C] | E | [H, C] |
-| 5 | [H, C] | H | [C] — stop |
+| 2 | [B, C] | B | [D, E, C] |
+| 3 | [D, E, C] | D | [E, C] |
+| 4 | [E, C] | E | [G, C] |
+| 5 | [G, C] | G | [C] — stop |
 
-DFS visit order: A, B, D, E, H. DFS path: A → B → D → E → H (4 edges).
+**DFS processing order:** A, B, D, E, G.  
+**DFS path:** A → B → E → G.
 
 ## 5. DLS and IDDFS
-DLS uses path-local cycle checking. FOUND means goal reached; CUTOFF means the depth limit blocked a possible continuation; FAILURE means no goal and no remaining cutoff branch.
+DLS uses a path-local cycle check. CUTOFF means a continuation exists beyond the current depth boundary; FAILURE means all reachable branches were exhausted without a cutoff.
+| DLS limit | Status | Path |
+|---|---|---|
+| 1 | CUTOFF | — |
+| 2 | CUTOFF | — |
+| 3 | FOUND | A → B → E → G |
+| 4 | FOUND | A → B → E → G |
 
-| DLS limit | Status | Path | Reason |
+IDDFS restarts DLS with fresh path state at each limit. For maximum depths 1 and 2 it returns CUTOFF; for maximum depths 3 and 4 it finds G at limit 3 and stops. Repeated shallow work is the cost of keeping memory low. A limit below 3 cannot reach a goal at depth 3, but CUTOFF is not proof of global unreachability.
+
+## 6. Weighted extension and UCS
+All original corridors are retained and the explicitly required corridor C→G is added. Nonnegative costs used:
+| Edge | Cost | Note |
+|---|---:|---|
+| A→B | 1 | Original |
+| A→C | 6 | Original |
+| B→D | 2 | Original |
+| B→E | 1 | Original |
+| C→F | 2 | Original |
+| E→G | 1 | Original |
+| C→G | 6 | Added corridor |
+
+The weights are stated assumptions selected to satisfy the manual's reference comparison: A→C→G costs 12; A→B→E→G costs 3.
+**UCS processing order (node, cumulative cost):** A(0), B(1), E(2), D(3), G(3).  
+**UCS path:** A → B → E → G. Independent sum: 1 + 1 + 1 = 3.
+
+BFS on the same weighted topology returns the fewest-edge path A → C → G (2 edges), with cost 6 + 6 = 12. UCS returns a 3-edge path with cost 3. BFS minimizes hops; UCS minimizes total nonnegative travel cost.
+
+## 7. Complexity comparison
+| Strategy | Complete? | Optimal? | Main resource behaviour |
 |---|---|---|---|
-| 1 | CUTOFF | — | Goal is deeper than limit. |
-| 2 | CUTOFF | — | Goal is deeper than limit. |
-| 3 | FOUND | A → C → F → H | Goal found at depth 3 after earlier branch is explored. |
-| 4 | FOUND | A → B → D → E → H | Depth-4 branch reaches H first in DFS order. |
+| BFS | Yes, finite branching | Yes for equal step costs | High memory; broad frontier |
+| DFS | Not always | No | Low memory; may follow deep branches |
+| DLS | If limit is sufficient | No | Bounded depth; may return CUTOFF |
+| IDDFS | Yes, finite branching | Yes for equal step costs | Repeats shallow work; low memory |
+| UCS | Yes with positive costs | Yes for nonnegative costs | Priority queue ordered by path cost |
 
-IDDFS attempts limits 1, 2, then 3. Limits 1 and 2 return CUTOFF; limit 3 returns FOUND with A → C → F → H. Limit 4 is not attempted because the search stops after success.
+## 8. Edge-case tests
+- **Start equals goal:** BFS, DFS, DLS and UCS are tested from G to G; each returns [G], UCS cost 0.
+- **Unreachable goal:** search A to isolated node X; BFS and DFS return None after exhausting reachable nodes.
+- **Cycle:** graph A→B, B→A and B→G; both BFS and DFS terminate and find A→B→G.
+The depth-2 DLS cutoff is a bounded-search result only. UCS rejects negative edge costs because its guarantee requires nonnegative costs.
 
-IDDFS repeats work because each iteration restarts at A and re-expands shallow nodes. It uses relatively little memory and finds a shallow solution when step costs are equal.
+## 9. Limitations and improvement
+The graph is a small directed abstraction and does not represent changing obstacles, uncertain travel times or robot dynamics. The manual states target path costs but not every edge's numeric weight on the copied pages; the edge values above are therefore explicit illustrative assumptions consistent with the stated comparison. A future version could load graph data from a file, validate edge costs, and test more start/goal pairs.
 
-## 6. UCS weighted graph
-Weights: A→B=1, A→C=1, B→D=1, D→E=1, E→H=1, C→F=2, C→G=2, F→H=2, G→H=2. These costs are an illustrative weighted version of the same topology.
-
-UCS processing order with cumulative cost: A(0), B(1), C(1), D(2), F(3), G(3), E(3), H(4). Equal-cost nodes are processed in the order they enter the priority queue. UCS path: A → B → D → E → H.
-
-Independent sum: 1 + 1 + 1 + 1 = 4. BFS route A → C → F → H costs 1 + 2 + 2 = 5. BFS minimizes edge count; UCS minimizes total cost, so a route with fewer edges can cost more.
-
-## 7. Comparison, limitation, edge case, reflection
-BFS finds a minimum-edge route in an unweighted graph. DFS may reach a deeper route first and depends on successor order. DLS restricts depth but may miss a goal if the limit is too small. IDDFS repeats shallow work but keeps memory use low. UCS uses cumulative non-negative costs to find a least-cost route.
-
-Edge case: with limits below the goal depth, DLS returns CUTOFF rather than FOUND. CUTOFF differs from FAILURE because a continuation may exist beyond the limit. Useful extra tests include start=goal, an unreachable goal, and a graph containing a cycle.
-
-Responsible practice: the original graph was not supplied, so this example graph and its costs are labelled as assumptions rather than claimed to be the instructor's graph. Check and replace the graph before final submission. Fixed successor order affects BFS/DFS traces.
-
-## 8. References
-Russell, S. J., & Norvig, P. (2021). *Artificial Intelligence: A Modern Approach* (4th ed.). Pearson.
-
-Python Software Foundation. *Python 3 documentation: heapq — Heap queue algorithm*. https://docs.python.org/3/library/heapq.html
+## 10. Reflection and responsible practice
+I learned that BFS and DFS may return the same route but process nodes in different orders, and UCS optimizes accumulated cost rather than number of edges. These methods can help a rescue robot compare routes without a heuristic. The surprising result was that the fewest-edge route cost more. Next time I would draw the frontier before coding and independently sum every returned path. I kept successor order fixed, reported actual processing order, disclosed the added corridor and documented the assumed costs rather than presenting them as supplied facts.
