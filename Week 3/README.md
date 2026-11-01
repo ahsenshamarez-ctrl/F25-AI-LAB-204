@@ -1,24 +1,23 @@
-# Week 3 — Graph Search (A–H)
+# Lab 3 — Uninformed Search
 
-**Important:** The original class diagram and starter code were not supplied. This package uses a simple example graph with A–H and makes that assumption explicit. If your teacher's graph has different edges or successor order, update the adjacency lists and report before submitting.
-
-Successor order: A→B,C; B→D; C→F,G; D→E; E→H; F→H; G→H; H has no successors. Start A, goal H, root depth 0. BFS/DFS stop when H is processed.
+Uses the exact original A–G graph from the supplied lab manual.
 
 ## Files
 - `lab3_search.py`: BFS and DFS
-- `lab3_depth_search.py`: DLS and IDDFS with FOUND/CUTOFF/FAILURE
-- `lab3_ucs.py`: UCS
-- `data/graph.txt`: adjacency list
-- `outputs/`: captured outputs
-- `Lab3_Report.docx`: report (downloadable package; binary report is not uploaded by this text-file connector)
+- `lab3_depth_search.py`: DLS and IDDFS
+- `lab3_ucs.py`: UCS on the weighted extension
+- `edge_case_tests.py`: start=goal, unreachable goal and cycle tests
+- `data/graph.txt`: original graph
+- `outputs/`: captured outputs and manual frontier traces
+- `Lab3_Report.docx`: required Word report (also see `Lab3_Report.md`)
 
-## Run
-Requires Python 3.10+; scripts use only the standard library:
+## Run (Python 3)
 ```bash
 python lab3_search.py
 python lab3_depth_search.py
 python lab3_ucs.py
+python edge_case_tests.py
 ```
 
-## UCS weights
-A→B=1, A→C=1, B→D=1, D→E=1, E→H=1, C→F=2, C→G=2, F→H=2, G→H=2. UCS chooses A→B→D→E→H at cost 4. The BFS route A→C→F→H costs 5 despite using fewer edges.
+## Weighted extension assumptions
+Retain every original corridor and add C→G as required by Section 3.7. The manual says A→C→G costs 12 and A→B→E→G costs 3. The explicit edge weights used are A-B=1, A-C=6, B-D=2, B-E=1, C-F=2, E-G=1, C-G=6. All costs are nonnegative.
