@@ -1,0 +1,38 @@
+WEEK 4 — RESULTS
+Counting convention: expand a node only when examining its successors. Goal is processed but not expanded. Stale entries are ignored.
+
+A* with supplied heuristic
+Path: S -> A -> C -> G
+Independent cost: 1+2+3=6
+Processed trace: S -> A -> C -> G
+Expanded: S, A, C
+Expansion count: 3
+Stale entries: none
+
+UCS control (h=0)
+Path: S -> A -> C -> G
+Independent cost: 1+2+3=6
+Processed trace: S -> A -> C -> B -> G
+Expanded: S, A, C, B
+Expansion count: 4
+Stale entries: none
+Reason: B has g=4 and is processed before G at g=6.
+
+A* with overestimate h(C)=10
+Original h(C)=2; modified h(C)=10; true remaining cost from C=3.
+Admissibility at C fails because 10 > 3.
+Path: S -> B -> G
+Independent cost: 4+5=9
+Processed trace: S -> A -> B -> G
+Expanded: S, A, B
+Expansion count: 3
+Stale entries: none
+Reason: C receives f=3+10=13. B is selected at f=8 and creates G at f=9. G is popped before C.
+
+Comparison:
+Run | Path cost | Processed trace | Expanded count
+A* supplied h | 6 | S,A,C,G | 3
+UCS h=0 | 6 | S,A,C,B,G | 4
+A* h(C)=10 | 9 | S,A,B,G | 3
+
+The supplied heuristic preserves optimal cost and reduces expansions by one versus UCS. The overestimate changes the selected route and returns cost 9. The same expansion count as the normal A* run does not mean the results are equally good; path cost and expanded nodes must both be inspected.
