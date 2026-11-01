@@ -19,6 +19,6 @@ Alpha-Beta, supplied order:
 
 Reversed ordering: [9,2,5,3,9,2,5,3].
 - Each MAX pair evaluates to 9, 5, 9, 5; each MIN pair becomes 5; root MAX is 5.
-- Alpha-Beta still returns 5, but evaluates 6 leaves for this order.
+- Alpha-Beta still returns 5, but evaluates all 8 leaves for this order: the first MAX child under the right MIN node returns 9, which does not tighten beta enough to cut off the second child once root alpha is 5.
 
 Note: the executable code is authoritative for the counters; the trace is included to make the bound updates and cutoff reproducible.
