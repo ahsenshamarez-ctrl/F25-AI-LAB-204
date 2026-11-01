@@ -1,0 +1,3 @@
+START=GOAL: BFS, DFS, DLS and UCS return [G]; UCS cost=0
+UNREACHABLE GOAL: BFS and DFS return None after exhausting reachable nodes
+CYCLE: A->B->A is safely skipped; both searches find A->B->G
