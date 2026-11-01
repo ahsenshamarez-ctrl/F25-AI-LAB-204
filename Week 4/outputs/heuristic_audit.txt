@@ -1,0 +1,17 @@
+HEURISTIC AUDIT
+
+Node | h(n) | True remaining cost | Admissible?
+S | 5 | 6 | PASS
+A | 4 | 5 | PASS
+B | 4 | 5 | PASS
+C | 2 | 3 | PASS
+G | 0 | 0 | PASS
+
+Consistency: h(u) <= cost(u,v) + h(v)
+S->A: 5 <= 1+4=5 PASS
+S->B: 5 <= 4+4=8 PASS
+A->C: 4 <= 2+2=4 PASS
+B->G: 4 <= 5+0=5 PASS
+C->G: 2 <= 3+0=3 PASS
+
+The supplied heuristic is admissible on all supplied nodes and consistent on every directed edge in this graph.
