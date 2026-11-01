@@ -1,0 +1,24 @@
+WEEK 4 — MANUAL FRONTIER TRACE
+Priority tuple: (f, g, node, path); lower f first.
+
+Initial: S(g=0,h=5,f=5)
+
+1. Expand S
+A: g=0+1=1, h=4, f=1+4=5
+B: g=0+4=4, h=4, f=4+4=8
+Remaining frontier: A(g=1,h=4,f=5), B(g=4,h=4,f=8)
+Select A because 5 < 8.
+
+2. Expand A
+C: g=1+2=3, h=2, f=3+2=5
+Remaining frontier: C(g=3,h=2,f=5), B(g=4,h=4,f=8)
+Select C because 5 < 8.
+
+3. Expand C
+G: g=3+3=6, h=0, f=6+0=6
+Remaining frontier: G(g=6,h=0,f=6), B(g=4,h=4,f=8)
+Select G because 6 < 8. G is the goal.
+
+Result: S -> A -> C -> G; cost 1+2+3=6.
+Processed trace: S, A, C, G.
+Expanded nodes: S, A, C. Goal G is processed but not expanded.
