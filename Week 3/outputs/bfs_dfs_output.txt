@@ -1,4 +1,4 @@
-BFS visit order: A -> B -> C -> D -> F -> G -> E -> H
-BFS path: A -> C -> F -> H
-DFS visit order: A -> B -> D -> E -> H
-DFS path: A -> B -> D -> E -> H
+BFS path: A -> B -> E -> G
+BFS processing order: A -> B -> C -> D -> E -> F -> G
+DFS path: A -> B -> E -> G
+DFS processing order: A -> B -> D -> E -> G
