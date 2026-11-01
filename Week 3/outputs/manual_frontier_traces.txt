@@ -1,0 +1,21 @@
+BFS MANUAL TRACE (queue front -> rear; stop when G is processed)
+Initial: [A]
+Process A; enqueue B,C -> [B,C]
+Process B; enqueue D,E -> [C,D,E]
+Process C; enqueue F -> [D,E,F]
+Process D; no new nodes -> [E,F]
+Process E; enqueue G -> [F,G]
+Process F; no new nodes -> [G]
+Process G; goal processed -> []
+BFS processing order: A, B, C, D, E, F, G
+BFS path: A -> B -> E -> G
+
+DFS MANUAL TRACE (stack top first; reverse insertion preserves left-first visit)
+Initial: [A]
+Process A; push C then B -> [B,C]
+Process B; push E then D -> [D,E,C]
+Process D; no new nodes -> [E,C]
+Process E; push G -> [G,C]
+Process G; goal processed -> [C]
+DFS processing order: A, B, D, E, G
+DFS path: A -> B -> E -> G
