@@ -29,9 +29,9 @@ For the supplied ordering, Alpha-Beta returns **5** and evaluates **6** of the 8
 | Ordering | Minimax value | Minimax leaves | Alpha-Beta value | Alpha-Beta leaves |
 |---|---:|---:|---:|---:|
 | Supplied: 3,5,2,9,3,5,2,9 | 5 | 8 | 5 | 6 |
-| Reversed: 9,2,5,3,9,2,5,3 | 5 | 8 | 5 | 6 |
+| Reversed: 9,2,5,3,9,2,5,3 | 5 | 8 | 5 | 8 |
 
-Both orders preserve the root value. These two particular orderings happen to have the same count; this does not mean ordering is irrelevant. In other trees, examining strong candidate moves early can cause earlier cutoffs and fewer leaf evaluations. Poor ordering can reduce the benefit, while the Minimax result remains unchanged.
+Both orders preserve the root value, but their pruning efficiency differs. The supplied ordering saves two leaf evaluations; the reversed ordering saves none. This demonstrates why examining promising moves early can tighten bounds sooner and enable earlier cutoffs, while poor ordering can reduce the benefit. The Minimax result remains unchanged.
 
 ## 6. Edge-case and comparison tests
 1. **Single terminal node:** both algorithms return 7 and evaluate exactly one leaf.
@@ -51,7 +51,7 @@ Both orders preserve the root value. These two particular orderings happen to ha
 The manual's Minimax snippet starts with six scores and pads the list to eight using zeros. Padding is only valid if the added zero values are genuine terminal outcomes in the intended game. Otherwise, it invents outcomes and may change the root decision. This submission uses the manual's separate eight-score Alpha-Beta example as the common complete tree for a fair algorithm comparison.
 
 ## 9. Interpretation and learning outcome
-The experiment demonstrates that Alpha-Beta pruning can avoid evaluating branches while preserving the exact Minimax decision. Here it evaluates 6 rather than 8 leaves for both tested orders, saving 2 evaluations (25%). Alpha-Beta is most useful when a game tree is large and good moves are searched early. It does not make the worst-case search cost disappear; poor ordering can make pruning much less effective.
+The experiment demonstrates that Alpha-Beta pruning can avoid evaluating branches while preserving the exact Minimax decision. Here it evaluates 6 rather than 8 leaves for the supplied order (saving 2 evaluations, or 25%), but all 8 leaves for the reversed order. Alpha-Beta is most useful when a game tree is large and good moves are searched early. It does not make the worst-case search cost disappear; poor ordering can make pruning much less effective.
 
 ## 10. Reflection
 - **What did I learn?** Minimax models optimal opposing decisions, while alpha and beta track bounds that prove when a branch is unnecessary.
