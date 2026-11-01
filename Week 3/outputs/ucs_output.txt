@@ -1,6 +1,6 @@
-UCS processing order (node, cumulative cost):
-A(0) -> B(1) -> C(1) -> D(2) -> F(3) -> G(3) -> E(3) -> H(4)
-UCS path: A -> B -> D -> E -> H
-UCS total cost: 4
-Independent cost check: 1 + 1 + 1 + 1 = 4
-BFS route on same topology: A -> C -> F -> H; weighted cost = 1 + 2 + 2 = 5
+UCS path: A -> B -> E -> G
+UCS cost: 3
+UCS processing order: A(0) -> B(1) -> E(2) -> D(3) -> G(3)
+Independent path-cost check: 3
+BFS path on same topology: A -> C -> G
+BFS path cost: 12
