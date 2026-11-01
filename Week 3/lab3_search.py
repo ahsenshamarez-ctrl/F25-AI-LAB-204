@@ -1,30 +1,45 @@
+"""BFS and DFS for the original A-G graph in the lab manual."""
 from collections import deque
 
-GRAPH = {"A":["B","C"], "B":["D"], "C":["F","G"], "D":["E"], "E":["H"], "F":["H"], "G":["H"], "H":[]}
+graph = {
+    "A": ["B", "C"], "B": ["D", "E"], "C": ["F"],
+    "D": [], "E": ["G"], "F": [], "G": []
+}
 
-def bfs(graph, start, goal):
-    queue = deque([(start, [start])]); seen = {start}; order = []
+def bfs(start, goal, adjacency=graph):
+    queue = deque([(start, [start])])
+    seen = {start}
+    processed = []
     while queue:
-        node, path = queue.popleft(); order.append(node)
-        if node == goal: return path, order
-        for nxt in graph[node]:
+        node, path = queue.popleft()
+        processed.append(node)
+        if node == goal:
+            return path, processed
+        for nxt in adjacency.get(node, []):
             if nxt not in seen:
-                seen.add(nxt); queue.append((nxt, path + [nxt]))
-    return None, order
+                seen.add(nxt)
+                queue.append((nxt, path + [nxt]))
+    return None, processed
 
-def dfs(graph, start, goal):
-    stack = [(start, [start])]; seen = set(); order = []
+def dfs(start, goal, adjacency=graph):
+    stack = [(start, [start])]
+    seen = set()
+    processed = []
     while stack:
         node, path = stack.pop()
-        if node in seen: continue
-        seen.add(node); order.append(node)
-        if node == goal: return path, order
-        for nxt in reversed(graph[node]):
-            if nxt not in seen: stack.append((nxt, path + [nxt]))
-    return None, order
+        if node in seen:
+            continue
+        seen.add(node)
+        processed.append(node)
+        if node == goal:
+            return path, processed
+        for nxt in reversed(adjacency.get(node, [])):
+            if nxt not in seen:
+                stack.append((nxt, path + [nxt]))
+    return None, processed
 
 if __name__ == "__main__":
     for name, fn in (("BFS", bfs), ("DFS", dfs)):
-        path, order = fn(GRAPH, "A", "H")
-        print(f"{name} visit order: {' -> '.join(order)}")
-        print(f"{name} path: {' -> '.join(path) if path else 'NOT FOUND'}")
+        path, order = fn("A", "G")
+        print(f"{name} path: {' -> '.join(path) if path else 'Not found'}")
+        print(f"{name} processing order: {' -> '.join(order)}")
