@@ -7,9 +7,9 @@ Supplied left-to-right ordering
 Reversed branch ordering
   Utilities: [9, 2, 5, 3, 9, 2, 5, 3]
   Minimax value: 5; leaves evaluated: 8
-  Alpha-Beta value: 5; leaves evaluated: 6
-  Leaves avoided: 2
+  Alpha-Beta value: 5; leaves evaluated: 8
+  Leaves avoided: 0
 Edge cases: PASS (single terminal node; mixed negative/positive utilities)
 All checks passed.
 
-The result is order-dependent in general: alpha-beta's value is invariant, but the number of pruned leaves can vary with move ordering. These particular two orders happen to produce the same leaf count.
+The root value is invariant to move ordering. In this example, the supplied order prunes two leaves while the reversed order prunes none, demonstrating that move ordering affects pruning efficiency.
