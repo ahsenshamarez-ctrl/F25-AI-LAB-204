@@ -1,0 +1,12 @@
+[
+ {"id":"Q1","split":"dev","query":"How many books can a student borrow at once?","relevant_doc":"UNI-01","answerable":true},
+ {"id":"Q2","split":"dev","query":"When is the library closed?","relevant_doc":"UNI-01","answerable":true},
+ {"id":"Q3","split":"dev","query":"What should users do if campus Wi-Fi does not work?","relevant_doc":"IT-02","answerable":true},
+ {"id":"Q4","split":"dev","query":"Where should programming assignments be submitted?","relevant_doc":"CS-03","answerable":true},
+ {"id":"Q5","split":"test","query":"What should a student prepare before academic advising?","relevant_doc":"HR-04","answerable":true},
+ {"id":"Q6","split":"test","query":"When is a project room booking confirmed?","relevant_doc":"PR-05","answerable":true},
+ {"id":"Q7","split":"test","query":"What should a student do after uploading an assignment?","relevant_doc":"CS-03","answerable":true},
+ {"id":"Q8","split":"test","query":"How long may a group normally reserve a project room?","relevant_doc":"PR-05","answerable":true},
+ {"id":"Q9","split":"test","query":"What is the policy for parking electric aircraft?","relevant_doc":null,"answerable":false},
+ {"id":"Q10","split":"test","query":"Which planet is the campus help desk located on?","relevant_doc":null,"answerable":false}
+]
